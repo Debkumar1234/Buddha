@@ -1,0 +1,279 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: The Open Buddhist University
+author: Khemarato Bhikkhu
+email: theopenbuddhistuniversity@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  A website dedicated to providing free,
+  online courses and bibliographies in Buddhist Studies. 
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://buddhistuniversity.net" # the base hostname & protocol for your site, e.g. http://example.com
+GA4: G-B3PH0LF6QQ
+github_repo:  buddhist-uni/buddhist-uni.github.io
+github_branch: main
+tinyletter_username: buddhist-uni
+twitter_username_HIDDEN: buddhistuni
+mastodon_link: https://digipres.club/@obu
+header_pages: [about.md, courses.md, library.md, blog.md, search.html]
+timezone: "Asia/Bangkok"
+doi: "10.5281/zenodo.4448510"
+
+# Build settings
+markdown: kramdown
+sass:
+  load_paths:
+    - "node_modules"
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-include-cache
+  - jekyll-last-modified-at
+strict_front_matter: true
+last-modified-at:
+    use-git-cache: true
+    set-page-date: true
+rss: RSS Feeds
+feed:
+  posts_limit: 10000
+  disable_in_development: true
+  collections:
+    content:
+      tags: true
+      categories:
+        - articles
+        - av
+        - booklets
+        - canon
+        - essays
+        - excerpts
+        - monographs
+        - papers
+        - reference
+show_excerpts: true
+## Feature Flags
+show_similars: true
+show_bibtex: true
+show_timestamps: true
+usepurgedcss: true
+
+# Exclude from processing.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - package.json
+  - package-lock.json
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - scripts/
+  - .github/
+  - .obsidian/
+
+permalink: pretty
+
+collections:
+  authors:
+     output: true
+     permalink: /:collection/:path
+  content:
+     output: true
+     permalink: /:collection/:path
+  series:
+     output: true
+     permalink: /:collection/:path
+  publishers:
+     output: true
+     permalink: /:collection/:path
+  journals:
+     output: true
+     permalink: /:collection/:path
+  courses:
+     output: true
+     permalink: /:collection/:path
+  tags:
+     output: true
+     permalink: /:collection/:name
+  categories:
+     output: true
+     permalink: /content/:path
+  posts:
+     output: true
+     permalink: blog/:year/:month/:day/:title
+  tests:
+     output: true
+     permalink: /:collection/:path
+
+defaults:
+  -
+    scope:
+        path: ""
+    values:
+        layout: "page"
+        section: "about"
+  -
+    scope:
+        path: ""
+        type: "posts"
+    values:
+        layout: "blog_post"
+        section: "blog"
+  - 
+    scope:
+        path: ""
+        type: "courses"
+    values:
+        layout: "course"
+        custom_css: ["course"]
+        section: "courses"
+        course_time_multiplier: 1.3 # assume a default amount of thinking time, switching cost, etc not accounted for by the material alone
+  -
+    scope:
+        path: "_courses/buddhism/"
+        type: "courses"
+    values:
+        slug: "course parts don't get slugs"
+        part_of_course: "buddhism"
+        layout: "buddhismcoursepart"
+  -
+    scope:
+        path: "_courses/function/"
+        type: "courses"
+    values:
+        slug: "course parts don't get slugs"
+        part_of_course: "function"
+        layout: "buddhismcoursepart"
+  -
+    scope:
+        path: "_courses/imagery/"
+        type: "courses"
+    values:
+        part_of_course: "imagery"
+  -
+    scope:
+        path: ""
+        type: "authors"
+    values:
+        layout: "author"
+        section: "library"
+  - 
+    scope:
+        path: ""
+        type: "series"
+    values:
+        layout: "series"
+        section: "library"
+  - 
+    scope:
+        path: ""
+        type: "publishers"
+    values:
+        layout: "publisher"
+        section: "library"
+  - 
+    scope:
+        path: ""
+        type: "journals"
+    values:
+        layout: "journal"
+        section: "library"
+  - 
+    scope:
+        path: ""
+        type: "tags"
+    values:
+        layout: "tag"
+        section: "library"
+        custom_css: ["tag"]
+        status: "unpublished"
+        illustration_width: 750
+  -
+    scope:
+        path: ""
+        type: "content"
+    values:
+        formats: [pdf, epub]
+        layout: "content"
+        base_value: 0.35
+        course_time_multiplier: 1.0
+        section: "library"
+        custom_css: ["content-perma"]
+        tags: []
+  -
+    scope:
+        path: ""
+        type: "categories"
+    values:
+        layout: "content-category"
+        section: "library"
+  -
+    scope:
+        path: "_content/articles"
+        type: "content"
+    values:
+        category: "articles"
+  -
+    scope:
+        path: "_content/av"
+        type: "content"
+    values:
+        formats: [mp3]
+        category: "av"
+  -
+    scope:
+        path: "_content/booklets"
+        type: "content"
+    values:
+        category: "booklets"
+        base_value: "2"
+  -
+    scope:
+        path: "_content/canon"
+        type: "content"
+    values:
+        category: "canon"
+  -
+    scope:
+        path: "_content/essays"
+        type: "content"
+    values:
+        category: "essays"
+  -
+    scope:
+        path: "_content/excerpts"
+        type: "content"
+    values:
+        category: "excerpts"
+  -
+    scope:
+        path: "_content/monographs"
+        type: "content"
+    values:
+        category: "monographs"
+        base_value: "3.25"
+  -
+    scope:
+        path: "_content/papers"
+        type: "content"
+    values:
+        category: "papers"
+  -
+    scope:
+        path: "_content/reference"
+        type: "content"
+    values:
+        category: "reference"

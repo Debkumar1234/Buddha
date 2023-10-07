@@ -1,0 +1,13 @@
+---
+title: "Series"
+section: library
+permalink: "/series/"
+layout: page
+---
+
+<ul class="master_series_list">
+{% assign series = site.series | sort: "slug" %}
+{% for s in series %}
+<li><a class="series_link" href="{{ s.url }}">{{ s.title }}</a></li>
+{% endfor %}
+</ul>

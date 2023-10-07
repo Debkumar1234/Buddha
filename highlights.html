@@ -1,0 +1,74 @@
+---
+title: Highlights
+section: library
+permalink: /library/highlights
+image: "https://www.buddhistuniversity.net/imgs/Kyoto-temple.jpg"
+big_image: https://upload.wikimedia.org/wikipedia/commons/3/3d/Nanzen-ji%2C_a_Zen_Buddhist_temple%2C_and_its_surroundings%2C_Kyoto%3B_November_2016_%2801%29.jpg
+big_width: 5928
+big_height: 3952
+image_width: 1280
+image_center_y: 53%
+image_center_x: 50%
+image_height: 853
+banner_info: <a href="https://commons.wikimedia.org/wiki/File:Nanzen-ji,_a_Zen_Buddhist_temple,_and_its_surroundings,_Kyoto;_November_2016_(01).jpg">雷太</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>
+---
+
+{% assign allcontent = site.content | where_exp: "c", "c.external_url or c.drive_links or c.file_links" %}
+{% capture thisyear %}{{ 'now' | date: "%Y" }}{% endcapture %}
+{% assign lastyear = thisyear | minus: 1 %}
+<h2>Table of Contents</h2><ul id="toc">
+  {% if site.show_timestamps %}<li><a href="#latest">Latest Arrivals</a></li>{% endif %}
+  <li><a href="#recent">Recently Published</a></li>
+  <li><a href="#bestof">Featured Content</a></li>
+</ul>
+
+{% if site.show_timestamps %}
+<h2 id="latest"><i class="fas fa-clock"></i> Latest Arrivals</h2>
+<p>Just added to the library:</p>
+{% assign newc = allcontent | sort: "date" | reverse | slice: 0, 20 %}
+{% for c in newc %}
+<div class="mb-3">{% include simple_content_title.html content=c %}<ul><li>Added {{ c.date | date_to_long_string: "ordinal" }}</li></ul></div>
+{% endfor %}
+<p>...  For the complete list, and to be informed about new arrivals, subscribe to <a href="/feed/content.xml">the content RSS Feed</a>.</p>
+{% endif %}
+
+{% assign allcontent = allcontent | where_exp: "c", "c.course" %}
+{% assign thisyears = allcontent | where: "year", thisyear %}
+{% assign lastyears = allcontent | where: "year", lastyear | where: "status", "featured" %}
+{% assign courses = site.courses | map: "slug" %}
+{% assign tags = site.tags | where: "status", "published" | map: "slug" | concat: courses %}
+{% assign featurecontent = lastyears %}
+{% for c in thisyears %}
+  {% if tags contains c.course %}
+    {% assign featurecontent = featurecontent | push: c %}
+    {% continue %}
+  {% endif %}
+  {% for t in c.tags %}
+    {% if tags contains t %}
+      {% assign featurecontent = featurecontent | push: c %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+<h2 id="recent"><i class="fas fa-calendar-week"></i> Recently Published</h2>
+<p>Within the last couple years.</p>
+{% include content_list.html contents=featurecontent orderby="-date" %}
+
+<h2 id="bestof"><i class="fas fa-medal"></i> Featured Selections</h2>
+<p>A couple works are selected as the cream of the crop each year.</p>
+{% capture fe %}c.year < {{ lastyear }}{% endcapture %}
+{% assign fcon = allcontent | where: "status", "featured" | where_exp: "c", fe %}
+{% assign featurecontent = "" | split: "" %}
+{% for c in fcon %}
+  {% assign yd = year | minus: c.year %}
+  {% if c.stars < 5 %}
+    {% continue %}
+  {% endif %}
+  {% assign featurecontent = featurecontent | push: c %}
+{% endfor %}
+{% assign featurecontent = featurecontent | group_by: "year" | sort: "name" | reverse %}
+{% for y in featurecontent %}
+<h3>{{ y.name }}</h3>
+{% for c in y.items %}
+<div class="mb-3">{% include simple_content_title.html content=c %}</div>{% endfor %}
+{% endfor %}
